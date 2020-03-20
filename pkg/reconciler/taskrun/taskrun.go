@@ -502,6 +502,15 @@ func (c *Reconciler) createPod(tr *v1alpha1.TaskRun, rtr *resources.ResolvedTask
 		return nil, fmt.Errorf("translating Build to Pod: %w", err)
 	}
 
+	c.Logger.Error("aaaaaaaaaaaa", pod)
+	pod.Spec.HostAliases = append(pod.Spec.HostAliases, corev1.HostAlias{
+		IP:        "10.193.28.1",
+		Hostnames: []string{
+			"registry.vivo.bj04.xyz",
+		},
+	})
+	c.Logger.Error("bbbbbbbbbbb", pod)
+
 	return c.KubeClientSet.CoreV1().Pods(tr.Namespace).Create(pod)
 }
 
